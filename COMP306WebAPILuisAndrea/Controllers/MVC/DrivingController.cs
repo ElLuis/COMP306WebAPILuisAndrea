@@ -21,10 +21,11 @@ namespace COMP306WebAPILuisAndrea.Controllers.MVC
             _mapper = mapper; //inject IMapper
         }
         
+        //AutoMapped
         // GET: Driving
         public ActionResult Index()
         {
-            IEnumerable<DrivingCentre> centres = null;
+            IEnumerable<DrivingCentreViewModel> centres = null;
 
             using (var client = new HttpClient())
             {
@@ -38,14 +39,14 @@ namespace COMP306WebAPILuisAndrea.Controllers.MVC
                 {
                     var readTask = result.Content.ReadAsAsync<IList<DrivingCentre>>();
                     readTask.Wait();
-                    //_mapper.Map<DrivingCentreViewModel, DrivingCentre>
-                    centres =  readTask.Result;
+                  
+                    centres =  _mapper.Map<IEnumerable<DrivingCentreViewModel>>( readTask.Result); //AutoMapper usage
                 }
                 else //web api sent error response 
                 {
                     //log response status here..
 
-                    centres = Enumerable.Empty<DrivingCentre>();
+                    centres = Enumerable.Empty<DrivingCentreViewModel>();
 
                     ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
                 }
