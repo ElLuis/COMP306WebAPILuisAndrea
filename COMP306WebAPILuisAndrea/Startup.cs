@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using COMP306WebAPILuisAndrea.Models;
 using COMP306WebAPILuisAndrea.Repository;
 using Microsoft.AspNetCore.Builder;
@@ -46,6 +47,10 @@ namespace COMP306WebAPILuisAndrea
                 options.FormatterMappings.SetMediaTypeMappingForFormat("js", "application/json");
 
             }).AddXmlSerializerFormatters();
+
+            //Automapper
+            services.AddAutoMapper(typeof(Startup));
+            services.AddControllersWithViews();
 
             //using Swagger to create the documentation
             services.AddSwaggerGen(c =>
